@@ -8,9 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.structure.StructureManager;
-import net.minecraft.structure.StructurePiece;
-import net.minecraft.structure.StructureStart;
+import net.minecraft.structure.*;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,16 +23,13 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.storage.RegionBasedStorage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 class NBTStructureLoader {
@@ -73,14 +68,14 @@ class NBTStructureLoader {
     void configure(LevelStorage.Session saveHandler, File worldDirectory) {
         this.saveHandler = saveHandler;
         if (worldDirectory != null) {
-            this.chunkSaveLocation = new File(DimensionType.getSaveDirectory(this.dimensionId.getDimensionType(), worldDirectory), "region");
+            this.chunkSaveLocation = new File(String.valueOf(DimensionType.getSaveDirectory(this.dimensionId.getDimensionType(), worldDirectory.toPath())), "region");
             this.chunkLoader = new ChunkLoader(this.chunkSaveLocation);
         }
     }
 
     private FeatureUpdater getLegacyStructureDataUtil() {
         if (this.legacyStructureDataUtil == null) {
-            File dataFolder = new File(this.saveHandler.getWorldDirectory(World.OVERWORLD), "data");
+            File dataFolder = new File(String.valueOf(this.saveHandler.getWorldDirectory(World.OVERWORLD)), "data");
             this.legacyStructureDataUtil = FeatureUpdater.create(dimensionId.getDimensionType(),
                     new PersistentStateManager(dataFolder, MinecraftClient.getInstance().getDataFixer()));
         }
@@ -126,17 +121,17 @@ class NBTStructureLoader {
         private final BlockBox parsedBoundingBox;
 
         SimpleStructureStart(NbtCompound compound) {
-            super(null,
+            super((StructureFeature)null,
                     new ChunkPos(0, 0),
                     0,
-                    0);
+                    new StructurePiecesList(List.of()));
 
             this.parsedBoundingBox = create(compound.getIntArray("BB"));
 
             NbtList children = compound.getList("Children", 10);
             for (int index = 0; index < children.size(); ++index) {
                 NbtCompound child = children.getCompound(index);
-                if (child.contains("BB")) this.children.add(new SimpleStructurePiece(child));
+                if (child.contains("BB")) this.getChildren().add(new SimpleStructurePiece(child));
             }
         }
 
@@ -146,15 +141,18 @@ class NBTStructureLoader {
             else
                 return new BlockBox(0, 0, 0, 0, 0, 0);
         }
-
+/*
         @Override
         public void init(DynamicRegistryManager dynamicRegistryManager, ChunkGenerator chunkGenerator, StructureManager structureManager, ChunkPos chunkPos, Biome biome, FeatureConfig featureConfig, HeightLimitView heightLimitView) {
         }
-
+*/
+        /*TODO Why?
         @Override
         protected BlockBox calculateBoundingBox() {
             return this.parsedBoundingBox;
         }
+
+         */
     }
 
     private static class SimpleStructurePiece extends StructurePiece {
@@ -163,12 +161,11 @@ class NBTStructureLoader {
         }
 
         @Override
-        protected void writeNbt(ServerWorld serverWorld, NbtCompound nbtCompound) {
+        protected void writeNbt(StructureContext structureContext, NbtCompound nbtCompound) {
         }
 
         @Override
-        public boolean generate(StructureWorldAccess structureWorldAccess, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox blockBox, ChunkPos chunkPos, BlockPos blockPos) {
-            return false;
+        public void generate(StructureWorldAccess structureWorldAccess, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox blockBox, ChunkPos chunkPos, BlockPos blockPos) {
         }
     }
 

@@ -29,7 +29,7 @@ class StructureProcessor {
         if (structureStart == null) return;
 
         try {
-            structureStart.setBoundingBoxFromChildren();
+            structureStart.getBoundingBox();
         } catch (Throwable ignored) {
         }
 

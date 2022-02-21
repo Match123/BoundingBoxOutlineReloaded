@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.fabricmc:fabric-loom:0.8-SNAPSHOT"
+        classpath "net.fabricmc:fabric-loom:0.11-SNAPSHOT"
     }
 }
 
@@ -19,8 +19,8 @@ group 'com.irtimaled'
 version project.buildVersion + '-' + project.mcVersion
 archivesBaseName = 'BBOutlineReloaded'
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
@@ -30,23 +30,26 @@ tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
 
     // Minecraft 1.17 (21w19a) upwards uses Java 16.
-    it.options.release = 16
+    it.options.release = 17
 }
 
 dependencies {
     minecraft 'com.mojang:minecraft:' + project.mcVersion
-    mappings 'net.fabricmc:yarn:' + project.mcVersion + '+build.29:v2'
-    modImplementation 'net.fabricmc:fabric-loader:0.11.6'
+    mappings 'net.fabricmc:yarn:' + project.mcVersion + '+build.22:v2'
+    modImplementation 'net.fabricmc:fabric-loader:0.13.2'
 }
 
 loom {
-    accessWidener "src/main/resources/bbor.accesswidener"
+    accessWidenerPath = file("src/main/resources/bbor.accesswidener")
+    mixin {
+        defaultRefmapName = 'mixins.bbor.refmap.json'
+    }
 }
-
+/*
 minecraft {
     refmapName = 'mixins.bbor.refmap.json'
 }
-
+*/
 processResources {
     filesMatching('fabric.mod.json') {
         expand version: project.version
@@ -55,7 +58,7 @@ processResources {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(16)
+        languageVersion = JavaLanguageVersion.of(17)
     }
     withSourcesJar()
 }

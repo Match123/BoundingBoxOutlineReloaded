@@ -6,13 +6,18 @@ import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackSource;
 import net.minecraft.resource.VanillaDataPackProvider;
+import org.lwjgl.system.CallbackI;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 
@@ -34,10 +39,21 @@ public class MixinResourcePackManager {
                 ResourcePackProfile.InsertionPosition.BOTTOM,
                 ResourcePackSource.PACK_SOURCE_BUILTIN);
     }
-
-    @Redirect(method = "providePackProfiles", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMap;copyOf(Ljava/util/Map;)Lcom/google/common/collect/ImmutableMap;"))
+    /*
+    @Redirect(method = "providePackProfiles",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/google/common/collect/ImmutableMap;copyOf(Ljava/util/Map;)Lcom/google/common/collect/ImmutableMap;"
+            )
+    )
+    private ImmutableMap<String, ResourcePackProfile> beforeReturn(Map<String, ResourcePackProfile> map) {
+        map.put(BBOR, resourcePackProfile);
+        return ImmutableMap.copyOf(map);
+     */
+    @Redirect(method = "providePackProfiles",at = @At(value = "INVOKE",target = "Lcom/google/common/collect/ImmutableMap;copyOf(Ljava/util/Map;)Lcom/google/common/collect/ImmutableMap;"))
     private ImmutableMap<String, ResourcePackProfile> beforeReturn(Map<String, ResourcePackProfile> map) {
         map.put(BBOR, resourcePackProfile);
         return ImmutableMap.copyOf(map);
     }
+
 }

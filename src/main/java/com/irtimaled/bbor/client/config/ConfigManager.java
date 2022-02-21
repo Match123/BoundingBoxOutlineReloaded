@@ -53,8 +53,11 @@ public class ConfigManager {
     public static Setting<Integer> spawnableBlocksRenderHeight;
     public static Setting<Boolean> invertBoxColorPlayerInside;
     public static Setting<Boolean> renderSphereAsDots;
+    /*
     public static Setting<Boolean> drawFlowerForests;
     public static Setting<Integer> flowerForestsRenderDistance;
+
+     */
     public static Setting<Boolean> drawBedrockCeilingBlocks;
 
     public static Setting<HexColor> colorWorldSpawn;
@@ -90,6 +93,7 @@ public class ConfigManager {
     public static Setting<HexColor> colorNetherFossils;
     public static Setting<HexColor> colorBastionRemnants;
     public static Setting<HexColor> colorRuinedPortals;
+    /*
     public static Setting<HexColor> colorFlowerForestDandelion;
     public static Setting<HexColor> colorFlowerForestPoppy;
     public static Setting<HexColor> colorFlowerForestAllium;
@@ -101,6 +105,8 @@ public class ConfigManager {
     public static Setting<HexColor> colorFlowerForestOxeyeDaisy;
     public static Setting<HexColor> colorFlowerForestCornflower;
     public static Setting<HexColor> colorFlowerForestLilyOfTheValley;
+    todo
+     */
     public static Setting<HexColor> colorBedrockCeilingBlocks;
 
     public static Setting<HexColor> buttonOnOverlay;
@@ -131,8 +137,8 @@ public class ConfigManager {
         biomeBordersRenderDistance = setup(config, "biomeBorders", "biomeBordersRenderDistance", 3, "The distance from the player where biome borders will be drawn.");
         biomeBordersMaxY = setup(config, "biomeBorders", "biomeBordersMaxY", -1, "The maximum top of the biome borders. If set to -1 it will use the value when activated, if set to 0 it will always track the players feet.");
 
-        drawFlowerForests = setup(config, "flowerForests", "drawFlowerForests", true, "If set to true flower forest flower overlays will be drawn.");
-        flowerForestsRenderDistance = setup(config, "flowerForests", "flowerForestsRenderDistance", 3, "The distance from the player where flower forests will be drawn.");
+//todo        drawFlowerForests = setup(config, "flowerForests", "drawFlowerForests", true, "If set to true flower forest flower overlays will be drawn.");
+//        flowerForestsRenderDistance = setup(config, "flowerForests", "flowerForestsRenderDistance", 3, "The distance from the player where flower forests will be drawn.");
 
         drawBedrockCeilingBlocks = setup(config, "bedrockCeiling", "drawBedrockCeilingBlocks", true, "If set to true position with only one layer of bedrock will be drawn.");
 
@@ -207,6 +213,7 @@ public class ConfigManager {
         colorNetherFossils = setup(config, "colors", "colorNetherFossils", HexColor.from("#ffffff"), "Color of nether fossils.");
         colorBastionRemnants = setup(config, "colors", "colorBastionRemnants", HexColor.from("#c0c0c0"), "Color of bastion remnants.");
         colorRuinedPortals = setup(config, "colors", "colorRuinedPortals", HexColor.from("#c800ff"), "Color of ruined portals.");
+        /*
         colorFlowerForestDandelion = setup(config, "colors", "colorFlowerForestDandelion", HexColor.from("#ffff00"), "Color of Flower Forest Dandelion");
         colorFlowerForestPoppy = setup(config, "colors", "colorFlowerForestPoppy", HexColor.from("#ff0000"), "Color of Flower Forest Poppy");
         colorFlowerForestAllium = setup(config, "colors", "colorFlowerForestAllium", HexColor.from("#ff00ff"), "Color of Flower Forest Allium");
@@ -218,6 +225,7 @@ public class ConfigManager {
         colorFlowerForestOxeyeDaisy = setup(config, "colors", "colorFlowerForestOxeyeDaisy", HexColor.from("#d3d3d3"), "Color of Flower Forest Oxeye Daisy");
         colorFlowerForestCornflower = setup(config, "colors", "colorFlowerForestCornflower", HexColor.from("#0000ff"), "Color of Flower Forest Cornflower");
         colorFlowerForestLilyOfTheValley = setup(config, "colors", "colorFlowerForestLilyOfTheValley", HexColor.from("#ffffff"), "Color of Flower Forest Lily Of The Valley");
+         */
         colorBedrockCeilingBlocks = setup(config, "colors", "colorBedrockCeilingBlocks", HexColor.from("#00ff00"), "Color of Bedrock Ceiling Blocks");
         config.save();
     }

@@ -12,9 +12,9 @@ import java.util.Map;
 public class MixinKeyBinding {
     @Final
     @Shadow
-    private static Map<String, Integer> categoryOrderMap;
+    private static Map<String, Integer> CATEGORY_ORDER_MAP;
 
     static {
-        categoryOrderMap.put(KeyListener.Category, 0);
+        CATEGORY_ORDER_MAP.put(KeyListener.Category, 0);
     }
 }
